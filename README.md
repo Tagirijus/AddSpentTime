@@ -8,7 +8,9 @@ This plugin adds the functionality to quickly add time spent on a task. It's sim
 Screenshots
 ----------
 
-**to come**  
+**Entering modal**
+
+![TagiAddSpentTime entering modal](../master/Screenshots/TagiAddSPentTime_modal.png)
 
 
 Usage
