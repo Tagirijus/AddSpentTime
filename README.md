@@ -1,4 +1,4 @@
-# TagiKPAddSpendTime
+# AddSpendTime
 
 #### _Plugin for [Kanboard](https://github.com/fguillot/kanboard "Kanboard - Kanban Project Management Software")_
 
@@ -40,7 +40,7 @@ Installation
 ------------
 
 1. Go into Kanboards `plugins/` folder
-2. `git clone https://github.com/Tagirijus/TagiKPAddSpentTime`
+2. `git clone https://github.com/Tagirijus/AddSpentTime`
 
 
 Translations

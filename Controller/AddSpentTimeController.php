@@ -1,11 +1,11 @@
 <?php
 
-namespace Kanboard\Plugin\TagiKPAddSpentTime\Controller;
+namespace Kanboard\Plugin\AddSpentTime\Controller;
 
 use Kanboard\Core\Controller\AccessForbiddenException;
 
 
-class TagiKPAddSpentTimeController extends \Kanboard\Controller\PluginController
+class AddSpentTimeController extends \Kanboard\Controller\PluginController
 {
     /**
      * Show the modal for entering the spent time.
@@ -22,7 +22,7 @@ class TagiKPAddSpentTimeController extends \Kanboard\Controller\PluginController
         }
 
         $this->response->html($this->template->render(
-            'TagiKPAddSpentTime:task_sidebar/tagikpaddspenttime_enter', [
+            'AddSpentTime:task_sidebar/addspenttime_enter', [
                 'task' => $task,
                 'user' => $user
             ]

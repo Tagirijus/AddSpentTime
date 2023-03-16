@@ -1,6 +1,6 @@
 <?php
 
-namespace Kanboard\Plugin\TagiKPAddSpentTime;
+namespace Kanboard\Plugin\AddSpentTime;
 
 use Kanboard\Core\Plugin\Base;
 use Kanboard\Core\Translator;
@@ -13,7 +13,7 @@ class Plugin extends Base
         // Views - Template Hook
         $this->template->hook->attach(
             'template:task:sidebar:actions',
-            'TagiKPAddSpentTime:task_sidebar/tagikpaddspenttime_button'
+            'AddSpentTime:task_sidebar/addspenttime_button'
         );
     }
 
@@ -26,7 +26,7 @@ class Plugin extends Base
     {
         // Plugin Name MUST be identical to namespace for Plugin Directory to detect updated versions
         // Do not translate the plugin name here
-        return 'TagiKPAddSpentTime';
+        return 'AddSpentTime';
     }
 
     public function getPluginDescription()
@@ -41,7 +41,7 @@ class Plugin extends Base
 
     public function getPluginVersion()
     {
-        return '1.2.0';
+        return '1.3.0';
     }
 
     public function getCompatibleVersion()
@@ -55,6 +55,6 @@ class Plugin extends Base
 
     public function getPluginHomepage()
     {
-        return 'https://github.com/Tagirijus/TagiKPAddSpentTime';
+        return 'https://github.com/Tagirijus/AddSpentTime';
     }
 }

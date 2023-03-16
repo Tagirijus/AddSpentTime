@@ -1,7 +1,7 @@
 <div class="page-header">
     <h2><?= t('Add spent time') ?></h2>
 </div>
-<form method="post" action="<?= $this->url->href('TagiKPAddSpentTimeController', 'addSpentTime', ['plugin' => 'TagiKPAddSpentTime', 'task_id' => $task['id'], 'project_id' => $task['project_id']]) ?>" autocomplete="off">
+<form method="post" action="<?= $this->url->href('AddSpentTimeController', 'addSpentTime', ['plugin' => 'AddSpentTime', 'task_id' => $task['id'], 'project_id' => $task['project_id']]) ?>" autocomplete="off">
     <?= $this->form->csrf() ?>
 
     <div class="task-form-container">
