@@ -10,7 +10,7 @@ Screenshots
 
 **Entering modal**
 
-![TagiAddSpentTime entering modal](../master/Screenshots/TagiAddSPentTime_modal.png)
+![TagiAddSpentTime entering modal](../master/Screenshots/AddSpentTime_modal.png)
 
 
 Usage
