@@ -44,10 +44,22 @@ class AddSpentTimeController extends \Kanboard\Controller\PluginController
             throw new AccessForbiddenException();
         }
 
+        // get the float (hours) to add to the time_spent
         $add = $this->parseTime((string) $form['time']);
-        $values =['id' => $task['id'], 'time_spent' => number_format($task['time_spent'] + $add, 2)];
 
-        if ($this->taskModificationModel->update($values, false)) {
+        // get only data to modify and modify the time_spent of the task already
+        $task_modification =[
+            'id' => $task['id'],
+            'time_spent' => number_format($task['time_spent'] + $add, 2),
+            'date_started' => $task['date_started']
+        ];
+
+        // set date_started retrospective in case it was not set
+        if ($task_modification['date_started'] == 0) {
+            $task_modification['date_started'] = time() - round($add * 3600);
+        }
+
+        if ($this->taskModificationModel->update($task_modification, false)) {
             $this->flash->success(t('Spent time added.'));
         } else {
             $this->flash->failure(t('Unable to add spent time.'));
