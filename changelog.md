@@ -1,6 +1,14 @@
 # Changelog
 
 
+## v1.4
+
+### What's Changed
+
+_(most recent changes are listed on top):_
+- AddSpentTime now sets the start tim automatically, if it wasn't set already.
+
+
 ## v1.3
 
 ### What's Changed
