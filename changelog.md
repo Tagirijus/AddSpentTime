@@ -1,6 +1,14 @@
 # Changelog
 
 
+## v1.5
+
+### What's Changed
+
+_(most recent changes are listed on top):_
+- If a task has subtasks, now you can choose in a select field to add time to this subtask only. **Attention:** the spent time of the parent task gets changed accordingly by default in the Kanboard system after such a change!
+
+
 ## v1.4
 
 ### What's Changed
