@@ -5,6 +5,30 @@
     <?= $this->form->csrf() ?>
 
     <div class="task-form-container">
+
+        <!-- Subtask chooser, if available -->
+        <?php if (!empty($subtasks)): ?>
+
+            <?php
+                $prepared_subtasks = [];
+                foreach ($subtasks as $subtask) {
+                    $prepared_subtasks[$subtask['id']] = $subtask['title'];
+                }
+                $prepared_subtasks[-999] = '--- MAIN: ' . $task['title'] . ' ---';
+            ?>
+
+            <div class="task-form-main-column">
+                <?= $this->form->label(t('Subtask'), 'subtask') ?>
+                <?= $this->form->select('subtask', $prepared_subtasks, [], [
+                    'required'
+                ]) ?>
+
+            </div>
+
+        <?php endif ?>
+
+        <!-- Time adder -->
+
         <div class="task-form-main-column">
             <?= $this->form->label(t('Time'), 'time') ?>
             <?= $this->form->text('time', [], [], [

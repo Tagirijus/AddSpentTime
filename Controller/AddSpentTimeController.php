@@ -15,6 +15,7 @@ class AddSpentTimeController extends \Kanboard\Controller\PluginController
     public function enter()
     {
         $task = $this->getTask();
+        $subtasks = $this->subtaskModel->getAllByTaskIds([$task['id']]);
         $user = $this->getUser();
 
         if ($user['username'] !== $task['assignee_username']) {
@@ -24,6 +25,7 @@ class AddSpentTimeController extends \Kanboard\Controller\PluginController
         $this->response->html($this->template->render(
             'AddSpentTime:task_sidebar/addspenttime_enter', [
                 'task' => $task,
+                'subtasks' => $subtasks,
                 'user' => $user
             ]
         ));
@@ -36,9 +38,14 @@ class AddSpentTimeController extends \Kanboard\Controller\PluginController
     {
         $task = $this->getTask();
         $user = $this->getUser();
+        $subtask = false;
         $this->checkCSRFForm();
 
         $form = $this->request->getValues();
+
+        if (array_key_exists('subtask', $form)) {
+            $subtask = $this->subtaskModel->getById($form['subtask']);
+        }
 
         if ($user['username'] !== $task["assignee_username"]) {
             throw new AccessForbiddenException();
@@ -60,7 +67,23 @@ class AddSpentTimeController extends \Kanboard\Controller\PluginController
         }
 
         if ($this->taskModificationModel->update($task_modification, false)) {
-            $this->flash->success(t('Spent time added.'));
+
+            // change subtask as well
+            if ($subtask !== false && !is_null($subtask)) {
+                $values_subtask = [
+                    'id' => $subtask['id'],
+                    'task_id' => $task['id'],
+                    'time_spent' => number_format($subtask['time_spent'] + $add, 2),
+                ];
+                if ($this->subtaskModel->update($values_subtask)) {
+                    $this->flash->success(t('Spent time added.'));
+                } else {
+                    $this->flash->failure(t('Unable to add spent time.'));
+                }
+            } else {
+                $this->flash->success(t('Spent time added.'));
+            }
+
         } else {
             $this->flash->failure(t('Unable to add spent time.'));
         }
