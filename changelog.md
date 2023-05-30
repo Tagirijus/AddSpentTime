@@ -1,6 +1,16 @@
 # Changelog
 
 
+## v1.6
+
+### What's Changed
+
+_(most recent changes are listed on top):_
+- Entry modal improved: select for subtasks can be reached properly now with one tab from the enter box on.
+- Subtasks status will always be set to "being processed", when time is being added.
+- Subtask in entry modal will now be automatically be chosen to the first "non done" one.
+
+
 ## v1.5
 
 ### What's Changed
