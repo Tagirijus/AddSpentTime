@@ -10,6 +10,19 @@
         <?php if (!empty($subtasks)): ?>
 
             <?php
+                // find the first non-done subtask
+                $values = [];
+                foreach ($subtasks as $subtask) {
+                    if ($subtask['status'] != 2) {
+                        $values['subtask'] = $subtask['id'];
+                        break;
+                    }
+                }
+                if (empty($values)) {
+                    $values['subtask'] = -999;
+                }
+
+                // prepare the select options
                 $prepared_subtasks = [];
                 foreach ($subtasks as $subtask) {
                     $prepared_subtasks[$subtask['id']] = $subtask['title'];
@@ -19,7 +32,7 @@
 
             <div class="task-form-main-column">
                 <?= $this->form->label(t('Subtask'), 'subtask') ?>
-                <?= $this->form->select('subtask', $prepared_subtasks, [], [], [
+                <?= $this->form->select('subtask', $prepared_subtasks, $values, [], [
                     'required',
                     'tabindex="2"'
                 ]) ?>
