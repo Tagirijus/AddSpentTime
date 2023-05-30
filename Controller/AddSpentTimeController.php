@@ -74,6 +74,11 @@ class AddSpentTimeController extends \Kanboard\Controller\PluginController
                     'id' => $subtask['id'],
                     'task_id' => $task['id'],
                     'time_spent' => number_format($subtask['time_spent'] + $add, 2),
+                    // in either way set the status of the subtask
+                    // to "being edited", since time is going to be
+                    // added anyway, thus it is being worked on, probably
+                    // (even when the estimated time is exceeded!)
+                    'status' => 1,
                 ];
                 if ($this->subtaskModel->update($values_subtask)) {
                     $this->flash->success(t('Spent time added.'));

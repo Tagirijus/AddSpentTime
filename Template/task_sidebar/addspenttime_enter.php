@@ -19,8 +19,9 @@
 
             <div class="task-form-main-column">
                 <?= $this->form->label(t('Subtask'), 'subtask') ?>
-                <?= $this->form->select('subtask', $prepared_subtasks, [], [
-                    'required'
+                <?= $this->form->select('subtask', $prepared_subtasks, [], [], [
+                    'required',
+                    'tabindex="2"'
                 ]) ?>
 
             </div>
