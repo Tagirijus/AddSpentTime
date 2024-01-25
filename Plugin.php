@@ -15,6 +15,10 @@ class Plugin extends Base
             'template:task:sidebar:actions',
             'AddSpentTime:task_sidebar/addspenttime_button'
         );
+        $this->template->hook->attach(
+            'template:task:sidebar:actions',
+            'AddSpentTime:task_sidebar/changeestimatedtime_button'
+        );
     }
 
     public function onStartup()

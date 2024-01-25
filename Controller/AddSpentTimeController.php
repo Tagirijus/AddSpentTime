@@ -32,10 +32,66 @@ class AddSpentTimeController extends \Kanboard\Controller\PluginController
     }
 
     /**
-     * Add the spent time and redirect to the task / refresh the task.
+     * Show the modal for entering the estimated time.
+     *
+     * @return HTML response
+     */
+    public function enterEstimated()
+    {
+        $task = $this->getTask();
+        $subtasks = $this->subtaskModel->getAllByTaskIds([$task['id']]);
+        $user = $this->getUser();
+
+        if ($user['username'] !== $task['assignee_username']) {
+            throw new AccessForbiddenException();
+        }
+
+        $this->response->html($this->template->render(
+            'AddSpentTime:task_sidebar/changeestimatedtime_enter', [
+                'task' => $task,
+                'subtasks' => $subtasks,
+                'user' => $user
+            ]
+        ));
+    }
+
+    /**
+     * Wrapper for changeTaskTime(), which will alter the
+     * tasks spent time.
      */
     public function addSpentTime()
     {
+        return $this->changeTaskTime('spent');
+    }
+
+    /**
+     * Wrapper for changeTaskTime(), which will alter the
+     * tasks estimated time.
+     */
+    public function changeEstimatedTime()
+    {
+        return $this->changeTaskTime('estimated');
+    }
+
+    /**
+     * Add the spent time and redirect to the task / refresh the task.
+     *
+     * @param string $which
+     */
+    public function changeTaskTime($which = 'spent')
+    {
+        // spent or estimated to change?
+        if ($which == 'estimated') {
+            $time_key = 'time_estimated';
+            $success_message = t('Estimated time changed.');
+            $failure_message = t('Unable to change estimated time.');
+        } else {
+            $time_key = 'time_spent';
+            $success_message = t('Spent time added.');
+            $failure_message = t('Unable to add spent time.');
+        }
+
+        // method starts here
         $task = $this->getTask();
         $user = $this->getUser();
         $subtask = false;
@@ -57,7 +113,7 @@ class AddSpentTimeController extends \Kanboard\Controller\PluginController
         // get only data to modify and modify the time_spent of the task already
         $task_modification =[
             'id' => $task['id'],
-            'time_spent' => number_format($task['time_spent'] + $add, 2),
+            $time_key => number_format($task[$time_key] + $add, 2),
             'date_started' => $task['date_started']
         ];
 
@@ -73,7 +129,7 @@ class AddSpentTimeController extends \Kanboard\Controller\PluginController
                 $values_subtask = [
                     'id' => $subtask['id'],
                     'task_id' => $task['id'],
-                    'time_spent' => number_format($subtask['time_spent'] + $add, 2),
+                    $time_key => number_format($subtask[$time_key] + $add, 2),
                     // in either way set the status of the subtask
                     // to "being edited", since time is going to be
                     // added anyway, thus it is being worked on, probably
@@ -81,16 +137,16 @@ class AddSpentTimeController extends \Kanboard\Controller\PluginController
                     'status' => 1,
                 ];
                 if ($this->subtaskModel->update($values_subtask)) {
-                    $this->flash->success(t('Spent time added.'));
+                    $this->flash->success($success_message);
                 } else {
-                    $this->flash->failure(t('Unable to add spent time.'));
+                    $this->flash->failure($failure_message);
                 }
             } else {
-                $this->flash->success(t('Spent time added.'));
+                $this->flash->success($success_message);
             }
 
         } else {
-            $this->flash->failure(t('Unable to add spent time.'));
+            $this->flash->failure($failure_message);
         }
 
         return $this->response->redirect($this->helper->url->to('TaskViewController', 'show', ['task_id' => $task['id']]), true);
@@ -99,6 +155,10 @@ class AddSpentTimeController extends \Kanboard\Controller\PluginController
     /**
      * This function is for interpreting the given time
      * input string.
+     *
+     * 0.5 (float) will be hours
+     * 0:30 (string) will be hours and minutes
+     * 30 (integer) will be minutes
      *
      * @param  string $time
      * @return float
@@ -113,7 +173,19 @@ class AddSpentTimeController extends \Kanboard\Controller\PluginController
             // ... then convert it to a float
             $hours = explode(':', $time)[0];
             $minutes = explode(':', $time)[1];
-            $time = (float) $hours + (float) $minutes / 60;
+            $time_tmp = (float) $hours + (float) $minutes / 60;
+
+            // when entered -H:MM it should be possible to
+            // enter negative values this way
+            if (strpos($time, '-') === 0) {
+                $time = $time_tmp * -1;
+            } else {
+                $time = $time_tmp;
+            }
+
+        // no float, thus minutes entered
+        } elseif (strpos($time, '.') === false) {
+            $time = (float) $time / 60;
         }
 
         return (float) $time;

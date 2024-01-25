@@ -1,6 +1,16 @@
 # Changelog
 
 
+## v1.7
+
+### What's Changed
+
+_(most recent changes are listed on top):_
+- Negative numbers can be handled now.
+- Plain entered integers will be interpreted as minutes, while floats still being processed as hours.
+- Added feature for altering the estimated time with the exact same mechanics a well.
+
+
 ## v1.6
 
 ### What's Changed
