@@ -173,15 +173,7 @@ class AddSpentTimeController extends \Kanboard\Controller\PluginController
             // ... then convert it to a float
             $hours = explode(':', $time)[0];
             $minutes = explode(':', $time)[1];
-            $time_tmp = (float) $hours + (float) $minutes / 60;
-
-            // when entered -H:MM it should be possible to
-            // enter negative values this way
-            if (strpos($time, '-') === 0) {
-                $time = $time_tmp * -1;
-            } else {
-                $time = $time_tmp;
-            }
+            $time = (float) $hours + (float) $minutes / 60;
 
         // no float, thus minutes entered
         } elseif (strpos($time, '.') === false) {
