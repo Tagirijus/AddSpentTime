@@ -170,10 +170,21 @@ class AddSpentTimeController extends \Kanboard\Controller\PluginController
 
         // maybe it's a time formatted string like "1:45" ...
         if (strpos($time, ':') !== false) {
+            // remove the negative minus and get just the info
+            // that the number has to be multiplied by -1,
+            // when the uer entered e.g. "-0:30". It'S kind
+            // of a monkey patch maybe
+            if (strpos($time, '-') !== false) {
+                $multiply = -1;
+                $time = str_replace('-', '', $time);
+            } else {
+                $multiply = 1;
+            }
+
             // ... then convert it to a float
             $hours = explode(':', $time)[0];
             $minutes = explode(':', $time)[1];
-            $time = (float) $hours + (float) $minutes / 60;
+            $time = ((float) $hours + (float) $minutes / 60) * $multiply;
 
         // no float, thus minutes entered
         } elseif (strpos($time, '.') === false) {
