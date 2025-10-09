@@ -8,5 +8,8 @@ return array(
     'Spent time added.' => 'Getätigte Zeit hinzugefügt.',
     'Unable to add spent time.' => 'Kann getätigte Zeit nicht hinzufügen.',
     'Estimated time changed.' => 'Geschätzte Zeit geändert.',
-    'Unable to change estimated time.' => 'Kann geschätzte Zeit nicht ändern.'
+    'Unable to change estimated time.' => 'Kann geschätzte Zeit nicht ändern.',
+    'Change complexity' => 'Ändere Komplexität',
+    'Complexity changed.' => 'Komplexität geändert.',
+    'Unable to change complexity.' => 'Konnte Komplexität nicht ändern.',
 );

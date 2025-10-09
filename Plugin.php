@@ -19,6 +19,10 @@ class Plugin extends Base
             'template:task:sidebar:actions',
             'AddSpentTime:task_sidebar/changeestimatedtime_button'
         );
+        $this->template->hook->attach(
+            'template:task:sidebar:actions',
+            'AddSpentTime:task_sidebar/changecomplexity_button'
+        );
     }
 
     public function onStartup()
@@ -43,7 +47,7 @@ class Plugin extends Base
 
     public function getPluginVersion()
     {
-        return '1.7.2';
+        return '1.8.0';
     }
 
     public function getCompatibleVersion()
