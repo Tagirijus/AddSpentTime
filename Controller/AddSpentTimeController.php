@@ -175,42 +175,6 @@ class AddSpentTimeController extends \Kanboard\Controller\PluginController
     }
 
     /**
-     * Change the complexity of the task.
-     */
-    public function changeComplexity()
-    {
-        $success_message = t('Complexity changed.');
-        $failure_message = t('Unable to change complexity.');
-
-        // method starts here
-        $task = $this->getTask();
-        $user = $this->getUser();
-        $this->checkCSRFForm();
-
-        $form = $this->request->getValues();
-
-        if ($user['username'] !== $task["assignee_username"]) {
-            throw new AccessForbiddenException();
-        }
-
-        // get the data from the form and create a modified
-        // task from this data
-        $task_modification =[
-            'id' => $task['id'],
-            'score' => $form['complexity']
-        ];
-
-
-        if ($this->taskModificationModel->update($task_modification, false)) {
-            $this->flash->success($success_message);
-        } else {
-            $this->flash->failure($failure_message);
-        }
-
-        return $this->response->redirect($this->helper->url->to('TaskViewController', 'show', ['task_id' => $task['id']]), true);
-    }
-
-    /**
      * This function is for interpreting the given time
      * input string.
      *
