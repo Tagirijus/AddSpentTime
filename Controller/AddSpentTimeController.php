@@ -56,28 +56,6 @@ class AddSpentTimeController extends \Kanboard\Controller\PluginController
     }
 
     /**
-     * Show the modal for entering the complexity.
-     *
-     * @return HTML response
-     */
-    public function enterComplexity()
-    {
-        $task = $this->getTask();
-        $user = $this->getUser();
-
-        if ($user['username'] !== $task['assignee_username']) {
-            throw new AccessForbiddenException();
-        }
-
-        $this->response->html($this->template->render(
-            'AddSpentTime:task_sidebar/changecomplexity_enter', [
-                'task' => $task,
-                'user' => $user
-            ]
-        ));
-    }
-
-    /**
      * Wrapper for changeTaskTime(), which will alter the
      * tasks spent time.
      */
